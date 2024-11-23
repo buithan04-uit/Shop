@@ -1,6 +1,9 @@
 package truong.vx.wheyshop;
 
-public class BestDeal {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class BestDeal implements Parcelable {
     private String title;
     private int imageId;
     private String description;
@@ -8,7 +11,7 @@ public class BestDeal {
     private double star;
     private int id;
     private int categoryId;
-    private int LocationId;
+    private int locationId;
 
     public BestDeal(String title, int imageId, String description, double price, double star, int id, int categoryId, int locationId) {
         this.title = title;
@@ -18,9 +21,50 @@ public class BestDeal {
         this.star = star;
         this.id = id;
         this.categoryId = categoryId;
-        LocationId = locationId;
+        this.locationId = locationId;
     }
 
+    protected BestDeal(Parcel in) {
+        title = in.readString();
+        imageId = in.readInt();
+        description = in.readString();
+        price = in.readDouble();
+        star = in.readDouble();
+        id = in.readInt();
+        categoryId = in.readInt();
+        locationId = in.readInt();
+    }
+
+    public static final Parcelable.Creator<BestDeal> CREATOR = new Parcelable.Creator<BestDeal>() {
+        @Override
+        public BestDeal createFromParcel(Parcel in) {
+            return new BestDeal(in);
+        }
+
+        @Override
+        public BestDeal[] newArray(int size) {
+            return new BestDeal[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeInt(imageId);
+        dest.writeString(description);
+        dest.writeDouble(price);
+        dest.writeDouble(star);
+        dest.writeInt(id);
+        dest.writeInt(categoryId);
+        dest.writeInt(locationId);
+    }
+
+    // Getters and setters...
     public String getTitle() {
         return title;
     }
@@ -50,7 +94,7 @@ public class BestDeal {
     }
 
     public int getLocationId() {
-        return LocationId;
+        return locationId;
     }
 
     public void setTitle(String title) {
@@ -65,11 +109,11 @@ public class BestDeal {
         this.description = description;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setStar(float star) {
+    public void setStar(double star) {
         this.star = star;
     }
 
@@ -82,6 +126,6 @@ public class BestDeal {
     }
 
     public void setLocationId(int locationId) {
-        LocationId = locationId;
+        this.locationId = locationId;
     }
 }

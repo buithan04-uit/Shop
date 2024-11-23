@@ -1,5 +1,6 @@
 package truong.vx.wheyshop;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,14 @@ import java.util.List;
 public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.MyViewHolder> {
 
     private List<BestDeal> bestDealList;
+    public  interface OnMyItemCickListener{
+        void DoSomeThing (int position);
+    }
+    private SimilarAdapter.OnMyItemCickListener itemCickListener;
 
+    public void setItemCickListener(SimilarAdapter.OnMyItemCickListener itemCickListener) {
+        this.itemCickListener = itemCickListener;
+    }
     public SimilarAdapter(List<BestDeal> bestDealList) {
         this.bestDealList = bestDealList;
     }
@@ -28,9 +36,15 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         BestDeal bestDeal = bestDealList.get(position);
         holder.imageView.setImageResource(bestDeal.getImageId());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemCickListener.DoSomeThing(position);
+            }
+        });
     }
 
     @Override
