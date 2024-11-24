@@ -1,8 +1,12 @@
 package truong.vx.wheyshop;
 
+import static truong.vx.wheyshop.R.id.SearchTxt;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,19 +24,17 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView recyclerView1;
     int id = 1;
-    int id1 , idCategory;
-    private String title;
-    private int imageId;
-    private String description;
-    private double price;
-    private double star;
-    private int categoryId;
-    private int LocationId;
+    int idCategory;
+    private EditText SearchTxt;
+    List<BestDeal> bestDealListFull = new ArrayList<BestDeal>();
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        SearchTxt = findViewById(R.id.SearchTxt);
 
         List<Category> categoryList = new ArrayList<Category>();
         categoryList.add(new Category("Fruit" , R.drawable.cat2, 1));
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         categoryList.add(new Category("Bread" , R.drawable.cat5, 5));
 
         Intent intent = getIntent();
-        idCategory = intent.getIntExtra("idCategory" , 1);
+        idCategory = intent.getIntExtra("idCategory" , 0);
 
 
 
@@ -53,6 +55,54 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         List<BestDeal> bestDealList = new ArrayList<BestDeal>();
+
+
+        bestDealListFull.add (new BestDeal("Strawberry" , R.drawable.atrawberry , "abc" ,3.96 , 4.4 , 1, 1, 1));
+        bestDealListFull.add (new BestDeal("Apple" , R.drawable.apple , "abc" ,4.5 , 3.5 , 2, 1, 1));
+        bestDealListFull.add (new BestDeal("Berry" , R.drawable.berry , "abc" ,3.5 , 1 , 3, 1, 1));
+        bestDealListFull.add (new BestDeal("Orange" , R.drawable.orange , "abc" ,5 , 4.3 , 4, 1, 1));
+        bestDealListFull.add (new BestDeal("Pineaple" , R.drawable.pineaplle , "abc" ,3.76 , 2.5 , 5, 1, 1));
+        bestDealListFull.add (new BestDeal("Watermelon" , R.drawable.watermelon , "abc" ,6.49 , 5 , 6, 1, 1));
+        bestDealListFull.add (new BestDeal("Banana" , R.drawable.banana , "abc" ,3.69 , 5 , 7, 1, 1));
+        bestDealListFull.add (new BestDeal("Vargua" , R.drawable.vargua , "abc" ,2.49 , 4.2 , 8, 1, 1));
+        bestDealListFull.add (new BestDeal("Kiwi" , R.drawable.kiwi1 , "abc" ,1.85 , 4.3 , 9, 1, 1));
+
+        bestDealListFull.add (new BestDeal("Carot" , R.drawable.carot , "abc" ,3.96 , 4.4 , 1, 2, 1));
+        bestDealListFull.add (new BestDeal("Cabbage" , R.drawable.bapcai , "abc" ,4.49 , 3.5 , 2, 2, 1));
+        bestDealListFull.add (new BestDeal("Bitter cabbage" , R.drawable.raucai , "abc" ,3.5 , 2.3 , 3, 2, 1));
+        bestDealListFull.add (new BestDeal("Beetroot" , R.drawable.cuden , "abc" ,3.5 , 3.7 , 4, 2, 1));
+        bestDealListFull.add (new BestDeal("Tomato" , R.drawable.tomato , "abc" ,3.75 , 4.7 , 5, 2, 1));
+        bestDealListFull.add (new BestDeal("Potato" , R.drawable.potato , "abc" ,3.25 , 2.8, 6, 2, 1));
+        bestDealListFull.add (new BestDeal("Spinach" , R.drawable.raumuong , "abc" ,2.5 , 3.9 , 7, 2, 1));
+        bestDealListFull.add (new BestDeal("Broccoli" , R.drawable.suplo , "abc" ,2.79 , 5, 8, 2, 1));
+        bestDealListFull.add (new BestDeal("Eggplant" , R.drawable.catim , "abc" ,1.29 , 1.4 , 9, 2, 1));
+
+        bestDealListFull.add (new BestDeal("Mix" , R.drawable.all , "abc" ,3.96 , 4.4 , 1, 3, 1));
+        bestDealListFull.add (new BestDeal("Milo" , R.drawable.milo , "abc" ,4.49 , 3.5 , 2, 3, 1));
+        bestDealListFull.add (new BestDeal("TH True milk" , R.drawable.thtrue , "abc" ,3.5 , 2.3 , 3, 3, 1));
+        bestDealListFull.add (new BestDeal("Dau nanh" , R.drawable.daunanh , "abc" ,3.5 , 3.7 , 4, 3, 1));
+        bestDealListFull.add (new BestDeal("Nutri food" , R.drawable.nutri , "abc" ,3.75 , 4.7 , 5, 3, 1));
+        bestDealListFull.add (new BestDeal("Optimum" , R.drawable.optimum , "abc" ,3.25 , 2.8, 6, 3, 1));
+        bestDealListFull.add (new BestDeal("Oc cho" , R.drawable.occho , "abc" ,2.5 , 3.9 , 7, 3, 1));
+        bestDealListFull.add (new BestDeal("Yen mach" , R.drawable.yenmach , "abc" ,2.79 , 5, 8, 3, 1));
+
+        bestDealListFull.add (new BestDeal("Orange" , R.drawable.cam , "abc" ,3.96 , 4.4 , 1, 4, 1));
+        bestDealListFull.add (new BestDeal("Luu" , R.drawable.luu , "abc" ,4.49 , 3.5 , 2, 4, 1));
+        bestDealListFull.add (new BestDeal("Kiwi" , R.drawable.kiwi , "abc" ,3.5 , 2.3 , 3, 4, 1));
+        bestDealListFull.add (new BestDeal("Coconut" , R.drawable.dua , "abc" ,3.5 , 3.7 , 4, 4, 1));
+        bestDealListFull.add (new BestDeal("Watermelon" , R.drawable.duahau , "abc" ,3.75 , 4.7 , 5, 4, 1));
+        bestDealListFull.add (new BestDeal("Pineaple" , R.drawable.thom , "abc" ,3.25 , 2.8, 6, 4, 1));
+        bestDealListFull.add (new BestDeal("Apple" , R.drawable.tao , "abc" ,2.5 , 3.9 , 7, 4, 1));
+        bestDealListFull.add (new BestDeal("Vargua" , R.drawable.oi , "abc" ,2.79 , 5, 8, 4, 1));
+
+        bestDealListFull.add (new BestDeal("BreadVN" , R.drawable.banh1 , "abc" ,3.96 , 4.4 , 1, 2, 1));
+        bestDealListFull.add (new BestDeal("Bread" , R.drawable.banh2 , "abc" ,4.49 , 3.5 , 2, 2, 1));
+        bestDealListFull.add (new BestDeal("Bread New" , R.drawable.banh3 , "abc" ,3.5 , 2.3 , 3, 2, 1));
+        bestDealListFull.add (new BestDeal("Bread Franch" , R.drawable.banh4 , "abc" ,3.5 , 3.7 , 4, 2, 1));
+        bestDealListFull.add (new BestDeal("Sanwich" , R.drawable.banh5 , "abc" ,3.75 , 4.7 , 5, 2, 1));
+        bestDealListFull.add (new BestDeal("Sanwich New" , R.drawable.banh6 , "abc" ,3.25 , 2.8, 6, 2, 1));
+        bestDealListFull.add (new BestDeal("Sanwich Berry" , R.drawable.banh7 , "abc" ,2.5 , 3.9 , 7, 2, 1));
+
         if (idCategory == 1){
             bestDealList.add (new BestDeal("Strawberry" , R.drawable.atrawberry , "abc" ,3.96 , 4.4 , 1, 1, 1));
             bestDealList.add (new BestDeal("Apple" , R.drawable.apple , "abc" ,4.5 , 3.5 , 2, 1, 1));
@@ -105,18 +155,34 @@ public class MainActivity extends AppCompatActivity {
             bestDealList.add (new BestDeal("Sanwich Berry" , R.drawable.banh7 , "abc" ,2.5 , 3.9 , 7, 2, 1));
         }
 
-        BestDealAdapter bestDealAdapter = new BestDealAdapter(bestDealList);
-        recyclerView1.setAdapter(bestDealAdapter);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        bestDealAdapter.setItemCickListener(new BestDealAdapter.OnMyItemCickListener() {
-            @Override
-            public void DoSomeThing(int position) {
-                BestDeal bestDeal = bestDealList.get(position);
-                Intent intent = new Intent(MainActivity.this , DetailActivity.class);
-                intent.putExtra("bestDeal" , bestDeal);
-                startActivity(intent);
-            }
-        });
+        if (idCategory == 0) {
+            BestDealAdapter bestDealAdapter = new BestDealAdapter(bestDealListFull);
+            recyclerView1.setAdapter(bestDealAdapter);
+            recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+            bestDealAdapter.setItemCickListener(new BestDealAdapter.OnMyItemCickListener() {
+                @Override
+                public void DoSomeThing(int position) {
+                    BestDeal bestDeal = bestDealListFull.get(position);
+                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                    intent.putExtra("bestDeal", bestDeal);
+                    startActivity(intent);
+                }
+            });
+        }
+        else {
+            BestDealAdapter bestDealAdapter = new BestDealAdapter(bestDealList);
+            recyclerView1.setAdapter(bestDealAdapter);
+            recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+            bestDealAdapter.setItemCickListener(new BestDealAdapter.OnMyItemCickListener() {
+                @Override
+                public void DoSomeThing(int position) {
+                    BestDeal bestDeal = bestDealList.get(position);
+                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                    intent.putExtra("bestDeal", bestDeal);
+                    startActivity(intent);
+                }
+            });
+        }
 
         categoryAdapter.setItemCickListener(new CategoryAdapter.OnMyItemCickListener() {
             @Override
@@ -257,5 +323,50 @@ public class MainActivity extends AppCompatActivity {
     public void Btncart (View view){
         Intent intent = new Intent(this , Cart.class);
         startActivity(intent);
+    }
+    public void BtnSeeAll (View view){
+        id = 0;
+        BestDealAdapter bestDealAdapter = new BestDealAdapter(bestDealListFull);
+        recyclerView1.setAdapter(bestDealAdapter);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        bestDealAdapter.setItemCickListener(new BestDealAdapter.OnMyItemCickListener() {
+            @Override
+            public void DoSomeThing(int position) {
+                BestDeal bestDeal = bestDealListFull.get(position);
+                Intent intent = new Intent(MainActivity.this , DetailActivity.class);
+                intent.putExtra("bestDeal" , bestDeal);
+                startActivity(intent);
+            }
+        });
+    }
+    public void BtnSearch (View view){
+        List<BestDeal> SearchList = new ArrayList<BestDeal>();
+        if (id == 0)
+        {
+            for (BestDeal bestDeal : bestDealListFull){
+                if (bestDeal.getTitle().toLowerCase().contains(SearchTxt.getText().toString().toLowerCase())){
+                    SearchList.add(bestDeal);
+                }
+            }
+        }
+        else {
+            for (BestDeal bestDeal : bestDealListFull){
+                if (bestDeal.getTitle().toLowerCase().contains(SearchTxt.getText().toString().toLowerCase()) && id == bestDeal.getCategoryId()){
+                    SearchList.add(bestDeal);
+                }
+            }
+        }
+        BestDealAdapter bestDealAdapter = new BestDealAdapter(SearchList);
+        recyclerView1.setAdapter(bestDealAdapter);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        bestDealAdapter.setItemCickListener(new BestDealAdapter.OnMyItemCickListener() {
+            @Override
+            public void DoSomeThing(int position) {
+                BestDeal bestDeal = SearchList.get(position);
+                Intent intent = new Intent(MainActivity.this , DetailActivity.class);
+                intent.putExtra("bestDeal" , bestDeal);
+                startActivity(intent);
+            }
+        });
     }
 }
