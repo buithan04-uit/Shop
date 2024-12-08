@@ -182,7 +182,10 @@ public class Cart extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
+    public void BtnWishList (View view){
+        Intent intent = new Intent(this , WishList.class);
+        startActivity(intent);
+    }
     public void Btnexplore(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

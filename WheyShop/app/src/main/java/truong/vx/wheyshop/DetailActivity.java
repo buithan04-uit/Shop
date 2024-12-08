@@ -33,9 +33,11 @@ public class DetailActivity extends AppCompatActivity {
     RatingBar ratingBar;
     int num = 1;
     BestDeal bestDeal;
-    private List<BestDeal> bestDealList;
+    private List<BestDeal> bestDealListCart;
+    private List<BestDeal> bestDealListWishList;
     private List<Integer> numList;
     private double total = 0;
+    private int FlagAdd = 0;
     DecimalFormat df = new DecimalFormat("#.##");
     @SuppressLint("MissingInflatedId")
     @Override
@@ -187,6 +189,10 @@ public class DetailActivity extends AppCompatActivity {
         intent.putExtra("idCategory" , bestDeal.getCategoryId());
         startActivity(intent);
     }
+    public void BtnWishList (View view){
+        Intent intent = new Intent(this , WishList.class);
+        startActivity(intent);
+    }
 
     public void DecBtn_Onclick (View view){
         if (num > 1) num--;
@@ -222,8 +228,9 @@ public class DetailActivity extends AppCompatActivity {
     }
     public void AddBtn_Onclick (View view){
         //Do sonmething
-        for (int i = 0 ; i < bestDealList.size() ; i++){
-            if (bestDeal.getCategoryId() == bestDealList.get(i).getCategoryId() && bestDeal.getId() == bestDealList.get(i).getId()){
+        FlagAdd = 1;
+        for (int i = 0 ; i < bestDealListCart.size() ; i++){
+            if (bestDeal.getCategoryId() == bestDealListCart.get(i).getCategoryId() && bestDeal.getId() == bestDealListCart.get(i).getId()){
                 numList.set(i , numList.get(i) + num);
                 total += bestDeal.getPrice() *num;
                 saveData();
@@ -231,23 +238,46 @@ public class DetailActivity extends AppCompatActivity {
                 return;
             }
         }
-        bestDealList.add(bestDeal);
+        bestDealListCart.add(bestDeal);
         numList.add(num);
         total += bestDeal.getPrice() *num;
         saveData();
         Toast.makeText(DetailActivity.this, "Add your cart success !", Toast.LENGTH_LONG).show();
     }
 
+    public void AddWishListBtn_Onclick (View view){
+        //Do sonmething
+        FlagAdd = 2;
+        for (int i = 0 ; i < bestDealListWishList.size() ; i++){
+            if (bestDeal.getCategoryId() == bestDealListWishList.get(i).getCategoryId() && bestDeal.getId() == bestDealListWishList.get(i).getId()){
+                return;
+            }
+        }
+        bestDealListWishList.add(bestDeal);
+        saveData();
+        Toast.makeText(DetailActivity.this, "Add your WishList success !", Toast.LENGTH_LONG).show();
+    }
+
     private void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("CartData", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String bestDealListJson = gson.toJson(bestDealList);
-        String numListJson = gson.toJson(numList);
-        editor.putString("bestDealList", bestDealListJson);
-        editor.putString("numList", numListJson);
-        editor.putFloat("total", (float) total); // Lưu giá trị total
-        editor.apply();
+        if (FlagAdd == 1){
+            SharedPreferences sharedPreferences = getSharedPreferences("CartData", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new Gson();
+            String bestDealListJson = gson.toJson(bestDealListCart);
+            String numListJson = gson.toJson(numList);
+            editor.putString("bestDealList", bestDealListJson);
+            editor.putString("numList", numListJson);
+            editor.putFloat("total", (float) total); // Lưu giá trị total
+            editor.apply();
+        }
+        if (FlagAdd == 2){
+            SharedPreferences sharedPreferences = getSharedPreferences("WishlistData", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new Gson();
+            String bestDealListJson = gson.toJson(bestDealListWishList);
+            editor.putString("bestDealList", bestDealListJson);
+            editor.apply();
+        }
     }
 
     private void loadData() {
@@ -257,15 +287,27 @@ public class DetailActivity extends AppCompatActivity {
         String numListJson = sharedPreferences.getString("numList", null);
         Type bestDealListType = new TypeToken<ArrayList<BestDeal>>() {}.getType();
         Type numListType = new TypeToken<ArrayList<Integer>>() {}.getType();
-        bestDealList = gson.fromJson(bestDealListJson, bestDealListType);
+        bestDealListCart = gson.fromJson(bestDealListJson, bestDealListType);
         numList = gson.fromJson(numListJson, numListType);
         total = sharedPreferences.getFloat("total", 0); // Khôi phục giá trị total
 
-        if (bestDealList == null) {
-            bestDealList = new ArrayList<>();
+        if (bestDealListCart == null) {
+            bestDealListCart = new ArrayList<>();
         }
         if (numList == null) {
             numList = new ArrayList<>();
+        }
+
+        // Load wishlist
+        SharedPreferences sharedPreferences1 = getSharedPreferences("WishlistData", MODE_PRIVATE);
+        Gson gson1 = new Gson();
+        String bestDealListJson1 = sharedPreferences1.getString("bestDealList", null);
+        Type bestDealListType1 = new TypeToken<ArrayList<BestDeal>>() {}.getType();
+        bestDealListWishList = gson1.fromJson(bestDealListJson1, bestDealListType1);
+
+
+        if (bestDealListWishList == null) {
+            bestDealListWishList = new ArrayList<>();
         }
     }
 }
